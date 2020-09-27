@@ -4,32 +4,23 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import globals
 
-PATH = 'C:\\Users\\guppr\\Desktop\\YouTube\\chromedriver.exe'
+class Home_page:
+    titles=[]
 
-class home_page:
-    def __init__(self):
-        chips=[]
-
-    def get_chips(self):
-
+    def get_name(self):
         try:
-            outer_contents=WebDriverWait(driver,10).until(
-                EC.presence_of_element_located((By.ID,"ytd-feed-filter-chip-bar-renderer"))
+            outer_contents=WebDriverWait(globals.driver,10).until(
+                EC.presence_of_element_located((By.ID,"contents"))
             )
+            contents=outer_contents.find_elements_by_tag_name("ytd-rich-item-renderer")
+            for content in contents:
+                if(content.find_element_by_id("video-title-link")):
+                    title=content.find_element_by_id("video-title-link").get_attribute("aria-label")
+                    print(title)
+                    self.titles.append(title)
 
-            
-            #inner_contents=outer_contents.find_element_by_id("scroll-container")
-
-            chips=outer_contents.find_elements_by_class_name("yt-chip-cloud-chip-renderer")
-
-            
-            for chip in chips:
-                if(content.find_element_by_id("text")):
-                    chip_name=content.find_element_by_id("text")
-                    # print(heading.title.encode("uft-8"),'abcdcdc')
-                    print(chip_name.text.encode("utf-8"))
-
-        finally:
-            driver.quit()
+        except:
+            globals.driver.quit()
 

@@ -19,7 +19,6 @@ try:
     outer_contents=WebDriverWait(driver,10).until(
         EC.presence_of_element_located((By.ID,"contents"))
     )
-
     
     inner_contents=outer_contents.find_element_by_id("contents")
 
