@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-import time
+
 from globals import global_class
 
 
@@ -30,6 +30,7 @@ class trending(global_class):
             self.driver.quit()
     def select_category(self):
         print("The categories are: ")
+        
         for i in range(len(self.trending_categories)):
             print(self.trending_categories[i].text)
         print(self.trending_categories)
@@ -50,6 +51,7 @@ class trending(global_class):
     def get_videos(self):
         contents = self.get_contents(2)
         self.parse_contents(contents)
+
     def video_title(self,video_title):
         self.watch_title_video(self.titles,video_title)
         
