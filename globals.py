@@ -21,21 +21,32 @@ class global_class():
     def get_contents(self,id):  
         if id==1:
             outer_content=WebDriverWait(self.driver,15).until(
-            EC.presence_of_element_located((By.ID,"primary"))
-        )      
+            EC.presence_of_element_located((By.ID,"primary")))
+            outer_content_2=outer_content.find_element_by_id('contents')
+            inner_contents=outer_content_2.find_element_by_id("contents")
+            contents=inner_contents.find_elements_by_tag_name("ytd-video-renderer")
+            return contents
+
+              
         elif id==2:
             outer_content=WebDriverWait(self.driver,15).until(
-            EC.presence_of_element_located((By.TAG_NAME,"ytd-item-section-renderer"))
-            )
+            EC.presence_of_element_located((By.TAG_NAME,"ytd-item-section-renderer")))
+            outer_content_2=outer_content.find_element_by_id('contents')
+            inner_contents=outer_content_2.find_element_by_id("contents")
+            contents=inner_contents.find_elements_by_tag_name("ytd-video-renderer")
+            return contents
 
-        outer_content_2=outer_content.find_element_by_id('contents')
-        inner_contents=outer_content_2.find_element_by_id("contents")
-        contents=inner_contents.find_elements_by_tag_name("ytd-video-renderer")
-        return contents
+            
+        elif id==3:
+            outer_content=WebDriverWait(self.driver,15).until(
+            EC.presence_of_element_located((By.ID,"primary")))
+            inner_contents=outer_content.find_element_by_id("contents")
+            contents=inner_contents.find_elements_by_tag_name("ytd-rich-item-renderer")
+            return contents
 
-    def parse_contents(self,contents):
+    def parse_contents(self,contents,id=1):
         for content in contents:   
-            if(content.find_element_by_id("title-wrapper")):
+            if (id==1) and (content.find_element_by_id("title-wrapper")):
                 heading=content.find_element_by_id("title-wrapper")
                 title=heading.find_element_by_tag_name("yt-formatted-string")
                 self.titles.append(title)
@@ -47,7 +58,18 @@ class global_class():
                         pass
                     else:
                         break
-        # return self.titles
+            elif (id==0) and (content.find_element_by_id("details")):
+                heading=content.find_element_by_id("details")
+                title=heading.find_element_by_tag_name("yt-formatted-string")
+                self.titles.append(title)
+                print(title.text)
+                self.i+=1
+                if self.i%4==0:
+                    self.ans=input("do you want more videos?(y/n): ")
+                    if self.ans=='y':
+                        pass
+                    else:
+                        break
     def watch_title_video(self,titles,video_title):
         for title in self.titles:
                 if video_title in title.text:

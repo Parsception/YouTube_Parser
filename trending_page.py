@@ -54,7 +54,6 @@ class trending(global_class):
 
     def video_title(self,video_title):
         self.watch_title_video(self.titles,video_title)
-        
         return
 
 

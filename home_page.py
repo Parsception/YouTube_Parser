@@ -3,24 +3,17 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
-import globals
+from globals import global_class
 
-class Home_page:
-    titles=[]
+class Home_page(global_class):
 
-    def get_name(self):
-        try:
-            outer_contents=WebDriverWait(globals.driver,10).until(
-                EC.presence_of_element_located((By.ID,"contents"))
-            )
-            contents=outer_contents.find_elements_by_tag_name("ytd-rich-item-renderer")
-            for content in contents:
-                if(content.find_element_by_id("video-title-link")):
-                    title=content.find_element_by_id("video-title-link").get_attribute("aria-label")
-                    print(title)
-                    self.titles.append(title)
+    def __init__(self):
+        self.driver.get("https:\\www.youtube.com")
 
-        except:
-            globals.driver.quit()
-
+    def get_video_titles(self):
+        contents=self.get_contents(3)
+        self.parse_contents(contents,0)
+        return
+    def video_title(self,video_title):
+        self.watch_title_video(self.titles,video_title)
+        return
